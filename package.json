@@ -7,7 +7,7 @@
         "prisma:deploy": "npx prisma migrate deploy",
         "prisma:dev": "npx prisma migrate dev --name ",
         "prisma:gen": "npx prisma generate",
-        "build": "yarn tsc && yarn prisma:gen && yarn prisma:deploy",
+        "build": "npx tsc && npm run prisma:gen && npm run prisma:deploy",
         "start": "node ./dist/shared/http/server.js",
         "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/shared/http/server.ts"
     },
