@@ -20,17 +20,29 @@ model Categorias {
 }
 
 model Produtos {
-  id           Int        @id @default(autoincrement())
-  nome         String     @db.VarChar(100)
-  descricao    String     @db.VarChar(200)
-  quantidade   Decimal    @db.Decimal(18, 4)
-  categoria    Categorias @relation(fields: [categoriasId], references: [id])
+  id           Int         @id @default(autoincrement())
+  nome         String      @db.VarChar(100)
+  descricao    String      @db.VarChar(200)
+  quantidade   Decimal     @db.Decimal(18, 4)
+  valor        Decimal     @db.Decimal(18, 4)
+  categoria    Categorias  @relation(fields: [categoriasId], references: [id])
   categoriasId Int
-  vendas       Vendas[]   @relation("VendasProdutos")
+  VendaItem    VendaItem[]
 }
 
 model Vendas {
-  id       Int        @id @default(autoincrement())
-  total    Decimal    @db.Decimal(18, 4)
-  produtos Produtos[] @relation("VendasProdutos")
+  id    Int         @id @default(autoincrement())
+  items VendaItem[]
+  total Decimal     @db.Decimal(18, 4)
+}
+
+model VendaItem {
+  id         Int      @id @default(autoincrement())
+  quantidade Decimal  @db.Decimal(18, 4)
+  valor      Decimal  @db.Decimal(18, 2)
+  total      Decimal  @db.Decimal(18, 2)
+  produtos   Produtos @relation(fields: [produtosId], references: [id])
+  vendas     Vendas?  @relation(fields: [vendasId], references: [id], onDelete: Cascade)
+  vendasId   Int?
+  produtosId Int
 }
